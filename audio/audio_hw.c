@@ -1722,8 +1722,9 @@ static int set_preprocessor_echo_delay(effect_handle_t handle,
 
     param->psize = sizeof(uint32_t);
     param->vsize = sizeof(uint32_t);
-    *(uint32_t *)param->data = AEC_PARAM_ECHO_DELAY;
-    *((int32_t *)param->data + 1) = delay_us;
+    uint32_t echoDelay = AEC_PARAM_ECHO_DELAY;
+    memcpy(&param->data, &echoDelay, sizeof(uint32_t));
+    memcpy((void*)(&param->data) + 1, &delay_us, sizeof(uint32_t));
 
     return set_preprocessor_param(handle, param);
 }
